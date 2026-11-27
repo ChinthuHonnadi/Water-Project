@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A CIV104 LA-2 mini-project on smart water monitoring and modern plumbing.">
+<title>Smart Water Usage Monitoring System | CIV104</title>
+<style>
+:root{color-scheme:light;--ink:#102d45;--muted:#425c70;--blue:#075d83;--line:#d5e5ed;--pale:#eef7fb;--green:#dff5e8;--dark:#08283d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:1rem/1.6 system-ui,sans-serif;color:var(--ink);background:#fff}a{color:var(--blue)}a:focus-visible,input:focus-visible{outline:3px solid #1684b3;outline-offset:3px}.wrap{width:min(1120px,calc(100% - 2rem));margin:auto}
+header{border-bottom:1px solid var(--line)}nav{display:flex;align-items:center;justify-content:space-between;gap:.7rem 1.6rem;flex-wrap:wrap;padding:1rem 0}nav a{text-decoration:none;font-weight:650;font-size:.9rem}nav a:hover{text-decoration:underline}.brand{color:var(--ink);font-size:1rem}.links{display:flex;gap:.45rem 1.1rem;flex-wrap:wrap}
+.hero{background:var(--dark);color:white}.hero-grid{display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:clamp(1.5rem,4vw,4rem);padding:clamp(2.5rem,7vw,6rem) 0}.course{color:#a9e1cb;font-size:.9rem;font-weight:700}.hero h1{font-size:clamp(2.3rem,5.5vw,4.7rem);letter-spacing:-.055em;line-height:1.03;margin:.45rem 0 1rem}.hero p{max-width:39ch;margin:0 0 1.35rem;color:#d6e9f3}.button{display:inline-block;padding:.65rem 1rem;border-radius:.5rem;color:#073a39;background:#b7efd6;font-weight:750;text-decoration:none}.hero figure{margin:0}.hero img{width:100%;aspect-ratio:3/2;object-fit:contain;border-radius:1rem;display:block;background:#12425b}.hero figcaption{margin-top:.45rem;color:#d6e9f3}.hero figcaption a{color:inherit}
+section{padding:clamp(2rem,5vw,4rem) 0;border-bottom:1px solid var(--line);scroll-margin-top:1rem}h2{font-size:clamp(1.65rem,3.5vw,2.5rem);line-height:1.15;letter-spacing:-.035em;margin:0 0 1rem}h3{font-size:1.16rem;line-height:1.3;margin:0 0 .65rem}p{margin:0 0 1rem}p:last-child{margin-bottom:0}ul,ol{padding-left:1.3rem}li+li{margin-top:.35rem}.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.card{background:#fff;border:1px solid var(--line);border-radius:1rem;padding:clamp(.9rem,2.5vw,1.45rem);min-width:0}.wash{background:var(--pale)}.mint{background:var(--green)}.note,figcaption{font-size:.9rem;color:var(--muted)}.lead{max-width:72ch}figure{margin:0}.spaced{margin-top:1rem}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}caption{text-align:left;font-weight:750;margin-bottom:.55rem}th,td{text-align:left;padding:.45rem .35rem;border-bottom:1px solid var(--line);vertical-align:top}thead{background:var(--pale)}.bar-label{display:flex;justify-content:space-between;gap:.4rem;font-weight:650;margin-top:.85rem}.track{height:.85rem;background:#e8eef2;border-radius:.3rem;overflow:hidden}.bar{height:100%;background:#187ba4}.bar.smart{width:75%;background:#297a60}.scale{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-top:.2rem}
+.fields,.results{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}label{display:block;font-size:.9rem;font-weight:650}input{width:100%;min-width:0;font:inherit;padding:.55rem .7rem;margin-top:.3rem;border:1px solid #7da7b9;border-radius:.4rem;background:white;color:var(--ink)}.results{margin:1rem 0}.results div{background:var(--green);padding:.75rem;border-radius:.65rem}.results span{display:block;font-size:.85rem}.results output{display:block;font-size:clamp(1.05rem,3vw,1.6rem);line-height:1.2;font-weight:750;overflow-wrap:anywhere}.error{color:#81263c;margin-top:.65rem}.error:empty{display:none}
+.pipeline{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.45rem;align-items:center;text-align:center;margin:.9rem 0}.node{background:var(--pale);border:1px solid #a8cddd;border-radius:.55rem;padding:.6rem .3rem;font-weight:650}.signal{text-align:center;color:var(--muted);font-size:.85rem}.controls{display:grid;grid-template-columns:1fr auto 1fr;gap:.45rem;align-items:center;text-align:center;max-width:26rem;margin:.45rem auto .8rem}.controls .node{background:var(--green)}.flow{list-style:none;padding:0;margin:.8rem 0}.flow li{margin:0;padding:.45rem .65rem;background:var(--pale);border-radius:.45rem}.flow .down{text-align:center;background:none;padding:0;color:var(--blue)}.decision{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.45rem;font-size:.92rem}.decision div{padding:.6rem;background:var(--green);border-radius:.45rem}footer{padding:1.4rem 0;color:var(--muted);font-size:.9rem}details{margin-top:1rem}summary{font-weight:650;cursor:pointer}
+@media(max-width:700px){.hero-grid,.pair,.fields{grid-template-columns:1fr}.hero-grid{gap:1.5rem}nav{align-items:flex-start}.pipeline,.controls{font-size:.85rem}.results{gap:.35rem}.results div{padding:.5rem}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><nav class="wrap" aria-label="Report sections"><a class="brand" href="#top">CIV104 · LA-2</a><div class="links"><a href="#introduction">Introduction</a><a href="#analysis">Data &amp; Analysis</a><a href="#summary">Project Summary</a><a href="#learning">Learning Outcomes</a><a href="#conclusion">Conclusion</a><a href="#references">References</a></div></nav></header>
+<main id="top">
+<div class="hero"><div class="wrap hero-grid"><div><div class="course">Environmental Science and Sustainability · CIV104</div><h1>Smart Water Usage<br>Monitoring System</h1><p>Innovative Ideas for Water Conservation Using Modern Plumbing Systems</p><a class="button" href="#calculator">Try the savings calculator</a></div>
+<figure id="project-cover"><img id="cover-image" width="1536" height="1024" alt="Smart water usage monitoring illustration showing a tap, house plumbing, water tank and flow meter" hidden>
+<div id="cover-setup">
+<style>
+#project-cover img{aspect-ratio:3/2;height:auto;object-fit:contain}
+#project-cover img[hidden]{display:none}
+#cover-setup{background:#12425b;padding:1rem;border-radius:.8rem}
+#cover-setup input{background:white}
+#cover-setup button{border:0;cursor:pointer;margin-top:.75rem}
+#cover-setup button:disabled{opacity:.55;cursor:default}
+#cover-status{display:block;margin-top:.4rem}
+</style>
+<label for="cover-file">Choose your project cover image</label>
+<input type="file" id="cover-file" accept="image/png,image/jpeg,image/webp">
+<button type="button" class="button" id="save-cover" disabled>Download ready-to-host index.html</button>
+<small id="cover-status" role="status">Choose the image to embed it in the website.</small>
+</div></figure></div></div>
+<section id="introduction"><div class="wrap"><h2>Introduction</h2><p class="lead">Water conservation means using water efficiently and avoiding unnecessary loss. A dripping tap, a loose pipe joint or a tap left running can waste treated water. Modern plumbing combines pipes, fittings and valves with efficient fixtures and sensors to make water easier to control and monitor.</p><p class="lead">This project proposes an inline flow sensor at a tap supply line. A simple display shows daily water use and warns when flow continues unusually long.</p></div></section>
+<section id="analysis" class="wash"><div class="wrap"><h2>Data Collection and Analysis</h2><div class="card"><h3>Lab observation checklist</h3><p>At the NSSKC Plumbing Lab / Supreme Pipes Demonstration Setup, F Block, NMIT Bengaluru, identify the following items during the visit.</p><ul><li>Types of pipes and fittings</li><li>Water supply lines and drainage lines</li><li>Valves, taps and pipe connections</li><li>Possible wastage points such as worn taps and leaking joints</li></ul><p class="note">The comparison below uses assumptions for one tap. Record actual observations and readings during a lab visit or model test.</p></div>
+<div class="pair spaced"><div class="card"><table><caption>Illustrative sample data · one tap</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Use (min/day)</th><th scope="col">Water (L/day)</th></tr></thead><tbody><tr><th scope="row">Conventional use</th><td>20</td><td>120</td></tr><tr><th scope="row">With smart monitoring</th><td>15</td><td>90</td></tr></tbody></table><p class="note spaced">Both scenarios assume 6 L/min. Saving 5 minutes of flow gives an estimated 30 L/day reduction (25%).</p></div>
+<figure class="card"><h3>Sample daily water use</h3><div role="img" aria-label="Bar chart from zero to 120 litres per day. Conventional use is 120 litres per day and smart monitoring is 90 litres per day."><div class="bar-label"><span>Conventional use</span><span>120 L</span></div><div class="track"><div class="bar"></div></div><div class="bar-label"><span>With smart monitoring</span><span>90 L</span></div><div class="track"><div class="bar smart"></div></div><div class="scale"><span>0</span><span>60</span><span>120 L/day</span></div></div><figcaption>Illustrative estimates assuming users respond to alerts or reduce running time.</figcaption></figure></div>
+<div id="calculator" class="card spaced"><h3>Water savings calculator</h3><p>Enter a flow rate, daily running time and assumed savings percentage.</p>
+<div class="fields"><label for="rate">Flow rate (L/min)<input id="rate" type="number" min="0" step="any" value="6" required></label><label for="duration">Daily usage (minutes)<input id="duration" type="number" min="0" max="1440" step="any" value="20" required></label><label for="percent">Expected savings (%)<input id="percent" type="number" min="0" max="100" step="any" value="25" required></label></div>
+<p class="error" id="input-error" role="status"></p><div class="results" aria-label="Estimated water savings"><div><span id="daily-label">Daily</span><output aria-labelledby="daily-label" id="daily">30 L</output></div><div><span id="monthly-label">Monthly</span><output aria-labelledby="monthly-label" id="monthly">900 L</output></div><div><span id="yearly-label">Yearly</span><output aria-labelledby="yearly-label" id="yearly">10,950 L</output></div></div>
+<p class="note">Daily savings = flow rate × daily usage × savings percentage ÷ 100. Monthly and yearly estimates assume the same daily use for 30 and 365 days, respectively.</p></div></div></section>
+<section id="summary"><div class="wrap"><h2>Project Summary</h2><div class="pair"><div class="card"><h3>Problem identified</h3><p>Conventional taps give users little feedback on how much water they use. A tap left running or a leak downstream of the sensor can cause water loss.</p></div><div class="card"><h3>Proposed solution</h3><p>Fit an inline flow sensor between a shut-off valve and the tap. Connect the sensor to a microcontroller and a local display or buzzer.</p></div></div>
+<div class="pair spaced"><figure class="card"><h3>Labelled system diagram</h3><div class="signal">Water path</div><div class="pipeline"><div class="node">Water supply + valve</div><span aria-label="then">→</span><div class="node">Inline flow sensor</div><span aria-label="then">→</span><div class="node">Tap outlet</div></div><div class="signal">Sensor sends electrical pulses to the controller ↓</div><div class="controls"><div class="node">Microcontroller</div><span aria-label="then">→</span><div class="node">Display / buzzer</div></div><figcaption>The controller converts sensor pulses into litres using a calibrated pulses-per-litre value and adds each reading to the daily total.</figcaption></figure>
+<figure class="card"><h3>Monitoring flowchart</h3><ol class="flow"><li>Read flow sensor pulses</li><li class="down" aria-hidden="true">↓</li><li>Calculate volume and update daily total</li><li class="down" aria-hidden="true">↓</li><li>Has continuous flow exceeded the set time limit?</li></ol><div class="decision"><div><strong>Yes</strong><br>Alert user to check the tap or pipe.</div><div><strong>No</strong><br>Continue normal monitoring.</div></div><figcaption class="spaced">Repeat the reading cycle. Reset the continuous-flow timer when flow stops.</figcaption></figure></div>
+<div class="pair spaced"><div class="card"><h3>Expected water-saving benefits</h3><p>Usage feedback can help people shorten unnecessary tap use. An alert can prompt them to close a tap or inspect and repair a leak sooner. Actual savings depend on the site and how users respond.</p></div><div class="card mint"><h3>SDG 6 · Clean Water and Sanitation</h3><p>The idea supports <a href="https://sdgs.un.org/goals/goal6">Target 6.4</a> on water-use efficiency. Measuring consumption and responding to unusual flow can reduce avoidable freshwater use in homes and on campus.</p></div></div></div></section>
+<section id="learning" class="wash"><div class="wrap"><h2>Learning Outcomes</h2><ul><li>Identify basic plumbing components and common points of water loss.</li><li>Explain how a flow sensor and microcontroller measure and display water use.</li><li>Convert flow rate and duration into litres and compare two usage scenarios.</li><li>Connect practical water conservation to SDG 6.</li></ul></div></section>
+<section id="conclusion"><div class="wrap"><h2>Conclusion</h2><p class="lead">A smart water usage monitor makes tap consumption visible and flags unusually long flow. It can help users avoid waste by changing habits and checking possible leaks. The project demonstrates how a basic sensor and simple calculations can support more efficient plumbing.</p></div></section>
+<section id="references"><div class="wrap"><h2>References</h2><ol><li><a href="https://www.epa.gov/watersense/leak-detection-and-flow-monitoring-devices">U.S. EPA WaterSense · Leak Detection and Flow Monitoring Devices</a></li><li><a href="https://sdgs.un.org/goals/goal6">United Nations · Goal 6 and Target 6.4</a></li><li>Nitte Meenakshi Institute of Technology, Department of Civil Engineering. CIV104 LA-2 Handout, 13 November 2026, and LA-2 Report Template.</li></ol></div></section>
+</main>
+<footer class="wrap">Nitte Meenakshi Institute of Technology · CIV104 Environmental Science and Sustainability</footer>
+<script>
+const inputs = ['rate', 'duration', 'percent'].map(id => document.getElementById(id));
+const outputs = ['daily', 'monthly', 'yearly'].map(id => document.getElementById(id));
+const periods = [1, 30, 365];
+const error = document.getElementById('input-error');
+const format = new Intl.NumberFormat('en-IN', {maximumFractionDigits: 2});
+function updateSavings() {
+  const [rate, duration, percent] = inputs.map(input => input.valueAsNumber);
+  const daily = rate * (percent / 100) * duration;
+  const valid = inputs.every(input => input.validity.valid) && Number.isFinite(daily * 365);
+  error.textContent = valid ? '' : 'Enter a valid flow rate, a duration from 0 to 1,440 minutes and savings from 0 to 100%.';
+  outputs.forEach((output, index) => {
+    output.value = valid ? format.format(daily * periods[index]) + ' L' : '—';
+  });
+}
+inputs.forEach(input => input.addEventListener('input', updateSavings));
+updateSavings();
+</script>
+
+<script id="cover-editor">
+const coverFile = document.getElementById('cover-file');
+const coverImage = document.getElementById('cover-image');
+const coverDownload = document.getElementById('save-cover');
+const coverStatus = document.getElementById('cover-status');
+let selectedImage = 0;
+
+coverFile.addEventListener('change', async () => {
+  const request = ++selectedImage;
+  coverDownload.disabled = true;
+  coverImage.hidden = true;
+  coverImage.removeAttribute('src');
+  const file = coverFile.files[0];
+  if (!file || !['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+    coverStatus.textContent = 'Choose a PNG, JPEG, or WebP image.';
+    return;
+  }
+  try {
+    const data = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+    if (request !== selectedImage) return;
+    coverImage.src = data;
+    await coverImage.decode();
+    if (request !== selectedImage) return;
+    coverImage.width = coverImage.naturalWidth;
+    coverImage.height = coverImage.naturalHeight;
+    coverImage.hidden = false;
+    coverDownload.disabled = false;
+    coverStatus.textContent = 'Image ready. Use the button to download the finished page.';
+  } catch {
+    if (request === selectedImage) coverStatus.textContent = 'This image could not be opened. Choose another copy of the file.';
+  }
+});
+
+coverDownload.addEventListener('click', () => {
+  const page = document.documentElement.cloneNode(true);
+  page.querySelector('#cover-setup').remove();
+  page.querySelector('#cover-editor').remove();
+  const file = new Blob(['<!doctype html>\n', page.outerHTML], {type: 'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(file);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'index.html';
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+});
+</script>
+</body>
+</html>
